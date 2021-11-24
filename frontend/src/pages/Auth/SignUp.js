@@ -49,7 +49,7 @@ function SignUp() {
                     <label htmlFor="name">Name</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control p-2"
                       id="name"
                       placeholder="Full Name"
                       onChange={(e) => setName(e.target.value)}
@@ -60,7 +60,7 @@ function SignUp() {
                     <label htmlFor="email">Email Address</label>
                     <input
                       type="email"
-                      className="form-control"
+                      className="form-control p-2"
                       id="email"
                       placeholder="Email Address"
                       onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +71,7 @@ function SignUp() {
                     <label htmlFor="password">Password</label>
                     <input
                       type="password"
-                      className="form-control"
+                      className="form-control p-2"
                       id="password"
                       placeholder="Password"
                       onChange={(e) => setPassword(e.target.value)}
@@ -82,7 +82,7 @@ function SignUp() {
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input
                       type="password"
-                      className="form-control"
+                      className="form-control p-2"
                       id="confirmPassword"
                       placeholder="Confirm Password"
                       onChange={(e) => setConfirmPassword(e.target.value)}
@@ -92,7 +92,7 @@ function SignUp() {
                   <p className="text-center">
                     <button
                       type="submit"
-                      className="btn btn-primary"
+                      className="btn btn-primary btn-lg"
                       onClick={signUpHandler}
                       {...((name.length < 2 ||
                         !email.match(emailRegex) ||
