@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../../components/Navbar";
 
 function SignIn() {
   const emailRegex = RegExp(
@@ -15,7 +14,6 @@ function SignIn() {
 
   return (
     <div>
-      <Navbar user={false} />
       <div className="container mt-2">
         <div className="row">
           <div className="col-md-12">
