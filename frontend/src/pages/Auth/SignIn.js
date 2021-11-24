@@ -38,7 +38,7 @@ function SignIn() {
                     <label htmlFor="email">Email</label>
                     <input
                       type="email"
-                      className="form-control"
+                      className="form-control p-2"
                       id="email"
                       placeholder="Email Address"
                       onChange={(e) => setEmail(e.target.value)}
@@ -48,7 +48,7 @@ function SignIn() {
                     <label htmlFor="password">Password</label>
                     <input
                       type="password"
-                      className="form-control"
+                      className="form-control p-2"
                       id="password"
                       placeholder="Password"
                       onChange={(e) => setPassword(e.target.value)}
@@ -58,9 +58,10 @@ function SignIn() {
                   <p className="text-center">
                     <button
                       type="submit"
-                      className="btn btn-primary"
+                      className="btn btn-primary btn-lg"
                       onClick={signInHandler}
-                      {...((!email.match(emailRegex) || password.length < 4) && {
+                      {...((!email.match(emailRegex) ||
+                        password.length < 4) && {
                         disabled: true,
                       })}
                     >
