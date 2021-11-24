@@ -1,13 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 function Home() {
   const user = false;
 
   return (
     <div>
-      <Navbar user={user} />
       <div className="container mt-5">
         <div className="row">
           <div className="col-md-12">
@@ -20,7 +18,6 @@ function Home() {
 
             <div className="row mt-5">
               <div className="col-md-6">
-                {/* create a room */}
                 <p className="text-center">
                   <Link to="/signin" className="btn btn-lg btn-info">
                     Sign In
@@ -28,7 +25,6 @@ function Home() {
                 </p>
               </div>
 
-              {/* Join a room */}
               <div className="col-md-6">
                 <p className="text-center">
                   <Link to="/signup" className="btn btn-lg btn-info">
