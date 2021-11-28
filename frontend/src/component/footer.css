@@ -1,0 +1,17 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-shadow: rgb(0 0 0 / 6%) 3px -3px 20px 9px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+p {
+  margin: 5px;
+}
