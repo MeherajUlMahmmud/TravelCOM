@@ -1,16 +1,16 @@
-import "./App.css";
-import SignUp from "./component/SignUp";
-import LogIn from "./component/LogIn";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "./firebase-config";
-import Topbar from "./component/topbar/Topbar";
-import Footer from "./component/Footer";
-import SerchMap from "./component/google_map/SerchMap";
+import Home from "./pages/Home";
+import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp";
+import Profile from "./pages/User/Profile";
+import Navbar from "./components/Navbar";
+import EditProfile from "./pages/User/EditProfile";
+import Footer from "./components/Footer";
 
 function App() {
-  //user
   const [user, setUser] = useState({});
 
   onAuthStateChanged(auth, (currentUser) => {
@@ -19,25 +19,19 @@ function App() {
 
   return (
     <Router>
-      <Topbar user={user} />
-      <Switch>
-        <Route path="/signup">
-          <SignUp />
-        </Route>
-        <Route path="/login" show={user ? user.email : "no user"}>
-          <LogIn />
-        </Route>
-        <Route path="/"></Route>
-      </Switch>
-      <SerchMap />
-      {/* <h1>User:{user ? user.email : "no user"}</h1> */}
-      <Footer user={user} />
+      <main>
+        <Navbar user={user} />
+        <Routes>
+          <Route path="/" exact element={<Home user={user} />} />
+          <Route path="/signin" element={<SignIn user={user} />} />
+          <Route path="/signup" element={<SignUp user={user} />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+        </Routes>
+        {/* <Footer/> */}
+      </main>
     </Router>
   );
 }
 
 export default App;
-//step 1: Creaete firebase-configue file
-//step 2: Create stets to check on change of input fields
-//step 3:
-//step 4:
