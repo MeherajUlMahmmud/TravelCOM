@@ -1,26 +1,40 @@
 import mongoose from "mongoose";
 
 const UserModel = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
   },
-  email: {
+  bio: {
     type: String,
-    required: true,
+    max: 120,
   },
-  password: {
+  profile_picture: {
     type: String,
-    required: true,
+    default:
+      "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+  },
+  phone: {
+    type: String,
+    max: 15,
   },
   role: {
     type: String,
     required: true,
     default: "user",
   },
-  created_at: {
-    type: Date,
-    default: Date.now,
+  location: {
+    type: String,
+  },
+  facebook: {
+    type: String,
+  },
+  instagram: {
+    type: String,
   },
 });
 
