@@ -29,18 +29,39 @@ function Navbar({ user }) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
+              <Link
+                className="nav-link"
+                aria-current="page"
+                to="/upcoming-tours"
+              >
                 Upcoming Tours
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
+              <Link
+                className="nav-link"
+                aria-current="page"
+                to="/booking-closed-tours"
+              >
                 Booking Closed
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
+              <Link
+                className="nav-link"
+                aria-current="page"
+                to="/completed-tours"
+              >
                 Complete Tours
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                aria-current="page"
+                to="/create-tour"
+              >
+                New Tour
               </Link>
             </li>
           </ul>
