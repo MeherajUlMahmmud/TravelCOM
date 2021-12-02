@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { Link } from "react-router-dom";
+import { createUser } from "../../api/index";
 import Footer from "../../components/Footer";
 
 function SignUp() {
@@ -17,12 +18,11 @@ function SignUp() {
   const signUpHandler = async (e) => {
     e.preventDefault();
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      window.location = "/";
+      await createUserWithEmailAndPassword(auth, email, password);
+      var uid = auth.currentUser.uid;
+      var result = createUser({ uid, name, email });
+      console.log("result", result);
+      // window.location = "/";
     } catch (error) {
       console.log(error.code);
       setError(error.message);
@@ -60,7 +60,9 @@ function SignUp() {
               <div className="col-md-6">
                 <form>
                   <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label className="text-dark" htmlFor="name">
+                      Name
+                    </label>
                     <input
                       type="text"
                       className="form-control p-2"
@@ -74,7 +76,9 @@ function SignUp() {
                   </div>
 
                   <div className="form-group mt-3 mb-3">
-                    <label htmlFor="email">Email Address</label>
+                    <label className="text-dark" htmlFor="email">
+                      Email Address
+                    </label>
                     <input
                       type="email"
                       className="form-control p-2"
@@ -88,7 +92,9 @@ function SignUp() {
                   </div>
 
                   <div className="form-group mt-3 mb-3">
-                    <label htmlFor="password">Password</label>
+                    <label className="text-dark" htmlFor="password">
+                      Password
+                    </label>
                     <input
                       type="password"
                       className="form-control p-2"
@@ -102,7 +108,9 @@ function SignUp() {
                   </div>
 
                   <div className="form-group mt-3 mb-3">
-                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <label className="text-dark" htmlFor="confirmPassword">
+                      Confirm Password
+                    </label>
                     <input
                       type="password"
                       className="form-control p-2"
@@ -138,9 +146,9 @@ function SignUp() {
                   </div>
                 )}
 
-                <p className="text-center">
+                <h5 className="text-center mb-5">
                   Already have an account? <Link to="/signin">Sign In</Link>
-                </p>
+                </h5>
               </div>
             </div>
           </div>
