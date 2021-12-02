@@ -50,7 +50,9 @@ function SignIn() {
               <div className="col-md-6">
                 <form className="mt-5">
                   <div className="form-group mt-5 mb-3">
-                    <label htmlFor="email">Email</label>
+                    <label className="text-dark" htmlFor="email">
+                      Email
+                    </label>
                     <input
                       type="email"
                       className="form-control p-2"
@@ -63,7 +65,9 @@ function SignIn() {
                     </small>
                   </div>
                   <div className="form-group mt-4 mb-3">
-                    <label htmlFor="password">Password</label>
+                    <label className="text-dark" htmlFor="password">
+                      Password
+                    </label>
                     <input
                       type="password"
                       className="form-control p-2"
@@ -97,9 +101,9 @@ function SignIn() {
                     </div>
                   </div>
                 )}
-                <p className="text-center">
+                <h5 className="text-center">
                   Don't have an account? <Link to="/signup">Sign Up</Link>
-                </p>
+                </h5>
               </div>
               <div className="col-md-6 mb-3">
                 <div className="text-center">
