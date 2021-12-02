@@ -2,8 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase-config";
 import { signOut } from "firebase/auth";
+import { getUserDetails } from "../api/index";
 
 function Navbar({ user }) {
+  var userDetails;
+  if (user !== null) {
+    userDetails = getUserDetails(user);
+    console.log("navbar user", user);
+  }
+
   const logout = async () => {
     await signOut(auth);
   };
@@ -14,50 +21,50 @@ function Navbar({ user }) {
           TravelCOM
         </Link>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <Link class="nav-link active" aria-current="page" to="/">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link active" aria-current="page" to="/">
                 Home
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" aria-current="page" to="/">
+            <li className="nav-item">
+              <Link className="nav-link" aria-current="page" to="/">
                 Upcoming Tours
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" aria-current="page" to="/">
+            <li className="nav-item">
+              <Link className="nav-link" aria-current="page" to="/">
                 Booking Closed
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" aria-current="page" to="/">
+            <li className="nav-item">
+              <Link className="nav-link" aria-current="page" to="/">
                 Complete Tours
               </Link>
             </li>
           </ul>
           {user ? (
-            <ul class="navbar-nav me-5">
-              <li class="nav-item dropdown">
+            <ul className="navbar-nav me-5">
+              <li className="nav-item dropdown">
                 <a
-                  class="nav-link dropdown-toggle"
+                  className="nav-link dropdown-toggle"
                   href="#"
                   id="navbarDropdown"
                   role="button"
                   data-mdb-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Name
+                  {userDetails.name}
                 </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/profile">
                       Profile
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <p class="dropdown-item" onClick={logout}>
+                    <p className="dropdown-item" onClick={logout}>
                       Log Out
                     </p>
                   </li>
