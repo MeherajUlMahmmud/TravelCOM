@@ -8,7 +8,11 @@ import SignUp from "./pages/Auth/SignUp";
 import Profile from "./pages/User/Profile";
 import Navbar from "./components/Navbar";
 import EditProfile from "./pages/User/EditProfile";
+import UpcomingTours from "./pages/Tour/UpcomingTours";
+import BookingClosed from "./pages/Tour/BookingClosed";
+import CompleteTours from "./pages/Tour/CompleteTours";
 import Footer from "./components/Footer";
+import CreateEditTour from "./pages/Tour/CreateEditTour";
 
 function App() {
   const [user, setUser] = useState({});
@@ -27,6 +31,11 @@ function App() {
           <Route path="/signup" element={<SignUp user={user} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
+
+          <Route path="/upcoming-tours" element={<UpcomingTours />} />
+          <Route path="/booking-closed-tours" element={<BookingClosed />} />
+          <Route path="/completed-tours" element={<CompleteTours />} />
+          <Route path="/create-tour" element={<CreateEditTour />} />
         </Routes>
         {/* <Footer/> */}
       </main>
