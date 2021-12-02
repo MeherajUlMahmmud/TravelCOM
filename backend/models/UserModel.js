@@ -9,6 +9,10 @@ const UserModel = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   bio: {
     type: String,
     max: 120,
@@ -38,6 +42,4 @@ const UserModel = new mongoose.Schema({
   },
 });
 
-const UserModel = mongoose.model("UserModel", UserModel);
-
-export default UserModel;
+module.exports = mongoose.model("UserModel", UserModel);
