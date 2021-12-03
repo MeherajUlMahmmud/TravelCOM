@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase-config";
 import { signOut } from "firebase/auth";
 import { getUserDetails } from "../api/index";
 
 function Navbar({ user }) {
-  var userDetails;
-  if (user !== null) {
-    userDetails = getUserDetails(user);
-    console.log("navbar user", user);
-  }
+  const [name, setName] = useState("");
+  useEffect(() => {
+    if (user !== null) {
+      setName(localStorage.getItem("name"));
+    }
+    return () => {};
+  }, []);
 
   const logout = async () => {
     await signOut(auth);
+    localStorage.clear();
   };
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -56,11 +59,7 @@ function Navbar({ user }) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link"
-                aria-current="page"
-                to="/create-tour"
-              >
+              <Link className="nav-link" aria-current="page" to="/create-tour">
                 New Tour
               </Link>
             </li>
@@ -76,7 +75,7 @@ function Navbar({ user }) {
                   data-mdb-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {userDetails.name}
+                  {name}
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
