@@ -20,9 +20,17 @@ function SignUp() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       var uid = auth.currentUser.uid;
-      var result = createUser({ uid, name, email });
-      console.log("result", result);
-      // window.location = "/";
+      createUser({ uid, name, email })
+      .then((res) => {
+        localStorage.setItem("uid", res.data["data"]['uid']);
+        localStorage.setItem("name", res.data["data"]["name"]);
+        localStorage.setItem("email", res.data["data"]["email"]);
+        console.log(res.data["data"]);
+        window.location = "/";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     } catch (error) {
       console.log(error.code);
       setError(error.message);
