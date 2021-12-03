@@ -3,6 +3,7 @@ import { auth } from "../../firebase-config";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
+import { getUserDetails } from "../../api";
 
 function SignIn() {
   const emailRegex = RegExp(
@@ -22,10 +23,21 @@ function SignIn() {
 
     try {
       setError("");
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      window.location = "/";
+      await signInWithEmailAndPassword(auth, email, password);
+      var uid = auth.currentUser.uid;
+      getUserDetails(uid)
+        .then((res) => {
+          localStorage.setItem("uid", res.data["data"]["uid"]);
+          localStorage.setItem("name", res.data["data"]["name"]);
+          localStorage.setItem("email", res.data["data"]["email"]);
+          console.log(res.data["data"]);
+          window.location = "/";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch {
-      setError("Failed to log in");
+      setError("Invalid email or password");
     }
   };
 
@@ -96,7 +108,7 @@ function SignIn() {
                 </form>
                 {error && (
                   <div className="text-center">
-                    <div class="alert alert-danger" role="alert">
+                    <div className="alert alert-danger" role="alert">
                       {error}
                     </div>
                   </div>
