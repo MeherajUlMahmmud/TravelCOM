@@ -1,17 +1,17 @@
-const mongoose = require("mongoose");
-const UserModel = require("../models/UserModel");
+import mongoose from "mongoose";
+import UserModel from "../models/UserModel.js";
 
 // GET user details
-const getUserDetails = async (req, res) => {
+export const getUserDetails = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const user = await UserModel.findById({ id: userId });
+    const { uid } = req.params;
+    console.log(uid);
+    const user = await UserModel.findOne({ uid: uid });
+    // console.log(user);
     res.status(200).json({
       status: "success",
-      results: tours.length,
-      data: {
-        user,
-      },
+      results: user.length,
+      data: user,
     });
   } catch (err) {
     res.status(404).json({
@@ -21,26 +21,23 @@ const getUserDetails = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req, res) => {
-    try {
-        const users = await UserModel.find();
-        res.status(200).json({
-            status: "success",
-            results: users.length,
-            data: {
-                users
-            }
-        });
-    } catch (err) {
-        res.status(404).json({
-            status: "fail",
-            message: err
-        });
-    }
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).json({
+      status: "success",
+      data: users,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
 };
 
 // POST create user
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   const user = new UserModel({
     id: new mongoose.Types.ObjectId(),
     uid: req.body.uid,
@@ -49,9 +46,9 @@ const createUser = async (req, res) => {
   });
   try {
     await user.save();
-    console.log(user);
     res.status(201).json({
       status: "success",
+      data: user,
     });
   } catch (err) {
     res.status(400).json({
@@ -59,10 +56,4 @@ const createUser = async (req, res) => {
       message: err,
     });
   }
-};
-
-module.exports = {
-  createUser,
-  getAllUsers,
-  getUserDetails,
 };
