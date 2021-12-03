@@ -3,15 +3,16 @@ import axios from "axios";
 const url = "http://localhost:5000";
 
 export const createUser = (user) => {
-    return axios.post(`${url}/create-user`, user);
+  return axios.post(`${url}/create-user`, user);
 };
 
 export const getAllUsers = () => {
-    return axios.get(`${url}/`);
+  return axios.get(`${url}/`);
 };
 
-export const getUserDetails = (userId) => {
-    return axios.get(`${url}/user/${userId}`);
+export const getUserDetails = (uid) => {
+  console.log("getUserDetails", uid );
+  return axios.get(`${url}/user/${uid}`);
 };
 
 export const fetchUpcomingTours = () => {
