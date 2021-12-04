@@ -15,22 +15,22 @@ export const getUserDetails = (uid) => {
   return axios.get(`${url}/user/${uid}`);
 };
 
+export const updateUserDetails = (user) => {
+  return axios.post(`${url}/update-user/${user.uid}`, user);
+};
+
 export const fetchUpcomingTours = () => {
   return axios.get(url);
 };
 
-export const createPost = (post) => {
+export const createTour = (post) => {
   return axios.post(url, post);
 };
 
-export const updatePost = (id, post) => {
+export const updateTour = (id, post) => {
   return axios.patch(`${url}/${id}`, post);
 };
 
-export const deletePost = (id) => {
+export const deleteTour = (id) => {
   return axios.delete(`${url}/${id}`);
-};
-
-export const likePost = (id) => {
-  return axios.patch(`${url}/${id}/likePost`);
 };
