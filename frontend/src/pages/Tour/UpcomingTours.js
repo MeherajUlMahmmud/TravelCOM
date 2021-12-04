@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 function UpcomingTours() {
   let cardDetails = [];
@@ -10,18 +11,19 @@ function UpcomingTours() {
       id: i,
       title: "Card Title " + i,
       text: "Card Text " + i + " write something for card",
-      url: i,
+      url: `/tour/${i}`,
       button: "Button " + String(i),
     });
   }
 
   return (
     <div>
-      <div className="container">
+      <div className="container mb-5">
         <div className="row">
           <div className="col-md-12">
             <div className="text-center m-5">
               <h1>Upcoming Tours</h1>
+              <hr />
             </div>
             <div className="row">
               <div className="container-fluid d-flex justify-content-center">
@@ -51,13 +53,19 @@ function UpcomingTours() {
                         </a>
                       </div>
                       <div className="card-body">
-                        <h5 className="card-title">{oneCard.title}</h5>
+                        <h4 className="card-title">{oneCard.title}</h4>
                         <p className="card-text">{oneCard.text}</p>
                         <Link
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary me-3 btn-lg"
                           to={oneCard.url}
                         >
-                          {oneCard.button}
+                          See Details
+                        </Link>
+                        <Link
+                          className="btn btn-outline-primary btn-lg"
+                          to={oneCard.url}
+                        >
+                          Book Now
                         </Link>
                       </div>
                     </div>
@@ -68,6 +76,7 @@ function UpcomingTours() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
