@@ -31,6 +31,7 @@ function UpcomingTours() {
                   {cardDetails.map((oneCard) => (
                     <div
                       className="card border m-2"
+                      key={oneCard.id}
                       style={{
                         maxWidth: "40rem",
                       }}
