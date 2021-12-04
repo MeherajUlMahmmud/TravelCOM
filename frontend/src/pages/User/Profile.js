@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getUserDetails } from "../../api";
+import Footer from "../../components/Footer";
 
 function Profile() {
   const [name, setName] = useState("");
@@ -9,42 +11,62 @@ function Profile() {
   const [location, setLocation] = useState("");
   const [facebook, setFacebook] = useState("");
   const [instagram, setInstagram] = useState("");
+  const uid = localStorage.getItem("uid");
 
   useEffect(() => {
-    setName("John Doe");
+    getUserDetails(uid).then((res) => {
+      console.log(res.data["data"]);
+      setName(res.data["data"]["name"]);
+      setBio(res.data["data"]["bio"]);
+      setPicture(res.data["data"]["picture"]);
+      setProfession(res.data["data"]["profession"]);
+      setLocation(res.data["data"]["location"]);
+      setFacebook(res.data["data"]["facebook"]);
+      setInstagram(res.data["data"]["instagram"]);
+    });
+    return () => {};
   }, []);
 
   return (
     <div>
-      <div className="container mt-3">
+      <div className="container mt-3 mb-5">
         <div className="row">
           <div className="col-md-12">
             <div className="text-center">
-              <img
-                src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
-                className="rounded-circle"
-                alt="avatar"
-                style={{ width: "200px" }}
-              />
+              {picture ? (
+                <img
+                  src={picture}
+                  className="rounded-circle"
+                  alt="avatar"
+                  style={{ width: "200px" }}
+                />
+              ) : (
+                <img
+                  src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
+                  className="rounded-circle"
+                  alt="avatar"
+                  style={{ width: "200px" }}
+                />
+              )}
               <h3>
                 <b>{name}</b>
               </h3>
-              <h4>
+              <h5>
                 <b>{bio}</b>
-              </h4>
+              </h5>
 
               {profession ? (
-                <h5>
+                <p>
                   <i className="fa fa-briefcase" aria-hidden="true"></i>{" "}
                   <span>{profession}</span>
-                </h5>
+                </p>
               ) : null}
 
               {location ? (
-                <h6>
+                <p>
                   <i className="fa fa-map-marker" aria-hidden="true"></i>{" "}
                   <span>{location}</span>
-                </h6>
+                </p>
               ) : null}
 
               <div className="row">
@@ -72,13 +94,27 @@ function Profile() {
               </div>
 
               <Link to="/edit-profile">
-                <button className="btn btn-info m-3">Edit Profile</button>
+                <button className="btn btn-info btn-md m-3">
+                  Edit Profile
+                </button>
               </Link>
             </div>
           </div>
           <hr />
         </div>
+        <div className="row">
+          <div className="col-md-12">
+            <h4>Booked Tours</h4>
+          </div>
+        </div>
+        <hr />
+        <div className="row">
+          <div className="col-md-12">
+            <h4>Attended Tours</h4>
+          </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
