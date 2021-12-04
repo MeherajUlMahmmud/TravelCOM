@@ -13,6 +13,7 @@ import BookingClosed from "./pages/Tour/BookingClosed";
 import CompleteTours from "./pages/Tour/CompleteTours";
 import Footer from "./components/Footer";
 import CreateEditTour from "./pages/Tour/CreateEditTour";
+import TourDetails from "./pages/Tour/TourDetails";
 
 function App() {
   const [user, setUser] = useState({});
@@ -36,6 +37,7 @@ function App() {
           <Route path="/booking-closed-tours" element={<BookingClosed />} />
           <Route path="/completed-tours" element={<CompleteTours />} />
           <Route path="/create-tour" element={<CreateEditTour />} />
+          <Route path="/tour/:id" element={<TourDetails />} />
         </Routes>
         {/* <Footer/> */}
       </main>
