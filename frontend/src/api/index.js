@@ -18,12 +18,16 @@ export const updateUserDetails = (user) => {
   return axios.patch(`${url}/update-user/${user.id}`, user);
 };
 
-export const fetchUpcomingTours = () => {
-  return axios.get(url);
+export const createTour = (tour) => {
+  return axios.post(`${url}/tour/create-tour`, tour);
 };
 
-export const createTour = (post) => {
-  return axios.post(url, post);
+export const getUpcomingTours = () => {
+  return axios.get(`${url}/tour/upcoming-tours`);
+};
+
+export const getTourDetails = (tourId) => {
+  return axios.get(`${url}/tour/${tourId}`);
 };
 
 export const updateTour = (id, post) => {
