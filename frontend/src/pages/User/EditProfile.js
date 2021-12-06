@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase-config";
+import FileBase from "react-file-base64";
 import Footer from "../../components/Footer";
 import { getUserDetails, updateUserDetails } from "../../api";
 
 function EditProfile() {
+  const id = localStorage.getItem("id");
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [picture, setPicture] = useState("");
@@ -14,42 +15,53 @@ function EditProfile() {
   const uid = localStorage.getItem("uid");
 
   useEffect(() => {
-    getUserDetails(uid).then((res) => {
-      console.log(res.data['data']);
-      setName(res.data["data"]["name"]);
-      setBio(res.data["data"]["bio"]);
-      setPicture(res.data["data"]["picture"]);
-      setProfession(res.data["data"]["profession"]);
-      setLocation(res.data["data"]["location"]);
-      setFacebook(res.data["data"]["facebook"]);
-      setInstagram(res.data["data"]["instagram"]);
-    });
+    if (uid) {
+      getUserDetails(uid).then((res) => {
+        console.log("Getting data");
+        console.log(res.data["data"]);
+        setName(res.data["data"]["name"]);
+        setBio(res.data["data"]["bio"]);
+        setPicture(res.data["data"]["picture"]);
+        setProfession(res.data["data"]["profession"]);
+        setLocation(res.data["data"]["location"]);
+        setFacebook(res.data["data"]["facebook"]);
+        setInstagram(res.data["data"]["instagram"]);
+      });
+    } else {
+      window.location.href = "/signin";
+    }
     return () => {};
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, bio, picture, profession, location, facebook, instagram);
-    // updateUserDetails({
-    //   uid,
-    //   name,
-    //   bio,
-    //   picture,
-    //   profession,
-    //   location,
-    //   facebook,
-    //   instagram,
-    // })
-    //   .then((res) => {
-        // localStorage.setItem("uid", res.data["data"]["uid"]);
-        // localStorage.setItem("name", res.data["data"]["name"]);
-        // localStorage.setItem("email", res.data["data"]["email"]);
-        // console.log(res.data["data"]);
-        // window.location = "/";
-      // })
-      // .catch((err) => {
-      //   console.log(err);
-      // });
+    console.log(
+      id,
+      name,
+      bio,
+      picture,
+      profession,
+      location,
+      facebook,
+      instagram
+    );
+    updateUserDetails({
+      id,
+      name,
+      bio,
+      picture,
+      profession,
+      location,
+      facebook,
+      instagram,
+    })
+      .then((res) => {
+        localStorage.setItem("name", res.data["data"]["name"]);
+        window.location = "/profile";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -75,12 +87,13 @@ function EditProfile() {
                     </div>
                     <div className="form-group mt-3 mb-3">
                       <label className="text-dark">Picture</label>
-                      <input
-                        type="file"
-                        className="form-control p-2"
-                        placeholder="Profile Picture"
-                        onChange={(e) => setPicture(e.target.value)}
-                      />
+                      <div className="form-control p-2">
+                        <FileBase
+                          type="file"
+                          multiple={false}
+                          onDone={({ base64 }) => setPicture(base64)}
+                        />
+                      </div>
                     </div>
                     <div className="form-group mt-3 mb-3">
                       <label className="text-dark">Profession</label>
@@ -111,7 +124,7 @@ function EditProfile() {
                         placeholder="Bio"
                         value={bio}
                         rows="5"
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setBio(e.target.value)}
                       ></textarea>
                     </div>
                     <div className="form-group mt-3 mb-3">
