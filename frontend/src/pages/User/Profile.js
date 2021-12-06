@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 function Profile() {
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const [role, setRole] = useState("");
   const [picture, setPicture] = useState("");
   const [profession, setProfession] = useState("");
   const [location, setLocation] = useState("");
@@ -14,16 +15,21 @@ function Profile() {
   const uid = localStorage.getItem("uid");
 
   useEffect(() => {
-    getUserDetails(uid).then((res) => {
-      console.log(res.data["data"]);
-      setName(res.data["data"]["name"]);
-      setBio(res.data["data"]["bio"]);
-      setPicture(res.data["data"]["picture"]);
-      setProfession(res.data["data"]["profession"]);
-      setLocation(res.data["data"]["location"]);
-      setFacebook(res.data["data"]["facebook"]);
-      setInstagram(res.data["data"]["instagram"]);
-    });
+    if (uid) {
+      getUserDetails(uid).then((res) => {
+        console.log(res.data["data"]);
+        setName(res.data["data"]["name"]);
+        setBio(res.data["data"]["bio"]);
+        setRole(res.data["data"]["role"]);
+        setPicture(res.data["data"]["profile_picture"]);
+        setProfession(res.data["data"]["profession"]);
+        setLocation(res.data["data"]["location"]);
+        setFacebook(res.data["data"]["facebook"]);
+        setInstagram(res.data["data"]["instagram"]);
+      });
+    } else {
+      window.location.href = "/signin";
+    }
     return () => {};
   }, []);
 
@@ -42,15 +48,20 @@ function Profile() {
                 />
               ) : (
                 <img
-                  src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
+                  src={picture || "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"}
                   className="rounded-circle"
                   alt="avatar"
                   style={{ width: "200px" }}
                 />
               )}
               <h3>
-                <b>{name}</b>
+                <b>{name}</b>{" "}
               </h3>
+              {role !== "user" ? (
+                <p>
+                  {role === "coordinator" ? "Tour Coordinator" : "Tour Guide"}
+                </p>
+              ) : null}
               <h5>
                 <b>{bio}</b>
               </h5>
