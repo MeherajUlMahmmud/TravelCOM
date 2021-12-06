@@ -1,10 +1,8 @@
-const mongoose  = require('mongoose');
-var Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
-const TourModel = new Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "UserModel",
+const TourSchema = new mongoose.Schema({
+  userId: {
+    type: String,
     required: true,
   },
   name: {
@@ -23,16 +21,16 @@ const TourModel = new Schema({
     type: String,
     required: true,
   },
-  price: {
-    type: Number,
-    required: true,
-  },
   startDate: {
     type: Date,
     required: true,
   },
   endDate: {
     type: Date,
+    required: true,
+  },
+  duration: {
+    type: Number,
     required: true,
   },
   bookingOpen: {
@@ -51,4 +49,5 @@ const TourModel = new Schema({
   },
 });
 
-module.exports = mongoose.model("TourModel", TourModel);
+const TourModel = mongoose.model("TourModel", TourSchema);
+export default TourModel;
