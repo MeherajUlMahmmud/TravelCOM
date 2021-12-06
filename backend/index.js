@@ -1,8 +1,3 @@
-// const express = require("express");
-// const bodyParser = require("body-parser");
-// const cors = require("cors");
-// const mongoose = require("mongoose");
-// const dotenv = require("dotenv");
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -10,6 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import userRoutes from "./routes/user_routes.js";
+import tourRoutes from "./routes/tour_routes.js";
 
 const app = express();
 dotenv.config();
@@ -19,6 +15,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/", userRoutes);
+app.use("/tour", tourRoutes);
 
 const port = process.env.PORT || 5000;
 
