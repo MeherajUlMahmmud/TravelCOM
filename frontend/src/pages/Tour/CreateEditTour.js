@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import FileBase from "react-file-base64";
+import { createTour } from "../../api";
 import Footer from "../../components/Footer";
 
 function CreateEditTour() {
+  const userId = localStorage.getItem("id");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [location, setLocation] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [duration, setDuration] = useState(0);
 
+  useEffect(() => {
+    calculateDuration(startDate, endDate);
+    return () => {};
+  }, [startDate, endDate]);
+
   const calculateDuration = () => {
     console.log(startDate, endDate);
     if (startDate && endDate) {
-      console.log(startDate, endDate);
+      console.log("Calculating Duration");
       const start = new Date(startDate);
       const end = new Date(endDate);
       const diffTime = end - start;
@@ -18,15 +30,44 @@ function CreateEditTour() {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitting");
+    console.log(
+      name,
+      description,
+      image,
+      location,
+      startDate,
+      endDate,
+      duration
+    );
+    createTour({
+      userId,
+      name,
+      description,
+      image,
+      location,
+      startDate,
+      endDate,
+      duration,
+    })
+      .then((res) => {
+        console.log(res);
+        window.location.href = "/upcoming-tours";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <div className="container mb-5">
+        <h1 className="text-center m-5">Create a New Tour</h1>
+        <hr />
         <div className="row">
           <div className="col-md-12">
-            <div className="text-center m-5">
-              <h1>Create a New Tour</h1>
-              <hr />
-            </div>
             <form>
               <div className="row">
                 <div className="col-md-6">
@@ -36,12 +77,19 @@ function CreateEditTour() {
                       type="text"
                       className="form-control p-2"
                       placeholder="Enter Tour Name"
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
                   <div className="form-group m-3">
                     <label>Tour Cover Image</label>
-                    <input type="file" className="form-control p-2" />
+                    <div className="form-control p-2">
+                      <FileBase
+                        type="file"
+                        multiple={false}
+                        onDone={({ base64 }) => setImage(base64)}
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group m-3">
@@ -50,6 +98,7 @@ function CreateEditTour() {
                       type="text"
                       className="form-control p-2"
                       placeholder="Enter Tour Location"
+                      onChange={(e) => setLocation(e.target.value)}
                     />
                   </div>
                 </div>
@@ -61,6 +110,7 @@ function CreateEditTour() {
                       className="form-control"
                       placeholder="Enter Tour Description"
                       rows="8"
+                      onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
                   </div>
                 </div>
@@ -106,11 +156,20 @@ function CreateEditTour() {
                       readOnly
                     />
                   </div>
+                  {duration < 1 ? (
+                    <small className="text-danger ms-3">
+                      Tour duration must be greater than 1 day
+                    </small>
+                  ) : null}
                 </div>
               </div>
 
               <div className="text-center ">
-                <button className="btn btn-primary btn-lg" type="submit">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  onClick={handleSubmit}
+                >
                   Create New Tour
                 </button>
               </div>
