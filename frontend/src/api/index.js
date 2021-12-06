@@ -11,12 +11,11 @@ export const getAllUsers = () => {
 };
 
 export const getUserDetails = (uid) => {
-  console.log("getUserDetails", uid );
   return axios.get(`${url}/user/${uid}`);
 };
 
 export const updateUserDetails = (user) => {
-  return axios.post(`${url}/update-user/${user.uid}`, user);
+  return axios.patch(`${url}/update-user/${user.id}`, user);
 };
 
 export const fetchUpcomingTours = () => {
