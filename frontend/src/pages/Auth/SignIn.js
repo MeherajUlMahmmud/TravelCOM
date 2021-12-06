@@ -18,6 +18,12 @@ function SignIn() {
     setUser(currentUser);
   });
 
+  useEffect(() => {
+    if (user !== null) {
+      window.location.href = "/";
+    }
+  }, [user]);
+
   const signInHandler = async (e) => {
     e.preventDefault();
 
@@ -27,9 +33,11 @@ function SignIn() {
       var uid = auth.currentUser.uid;
       getUserDetails(uid)
         .then((res) => {
+          localStorage.setItem("id", res.data["data"]["_id"]);
           localStorage.setItem("uid", res.data["data"]["uid"]);
           localStorage.setItem("name", res.data["data"]["name"]);
           localStorage.setItem("email", res.data["data"]["email"]);
+          localStorage.setItem("role", res.data["data"]["role"]);
           console.log(res.data["data"]);
           window.location = "/";
         })
