@@ -18,14 +18,14 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(auth.currentUser);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
 
   useEffect(() => {
-    console.log(user);
     if (user !== null) {
       window.location.href = "/";
     }
@@ -34,31 +34,31 @@ function SignUp() {
 
   const signUpHandler = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       var uid = auth.currentUser.uid;
       createUser({ uid, name, email, role })
         .then((res) => {
+          console.log(res);
           localStorage.setItem("id", res.data["data"]["_id"]);
           localStorage.setItem("uid", res.data["data"]["uid"]);
           localStorage.setItem("name", res.data["data"]["name"]);
           localStorage.setItem("email", res.data["data"]["email"]);
           localStorage.setItem("role", res.data["data"]["role"]);
           console.log(res.data["data"]);
+          setLoading(false);
           window.location = "/";
         })
         .catch((err) => {
+          setLoading(false);
           console.log(err);
         });
     } catch (error) {
+      setLoading(false);
       console.log(error.code);
       setError(error.message);
     }
-  };
-
-  const onDummyChange = (e) => {
-    e.preventDefault();
-    console.log(name, email, role, password, confirmPassword);
   };
 
   return (
@@ -171,25 +171,42 @@ function SignUp() {
                     </small>
                   </div>
 
-                  <p className="text-center">
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-lg"
-                      onClick={signUpHandler}
-                      {...((!email.match(emailRegex) ||
-                        role.length === 0 ||
-                        password.length < 6 ||
-                        password !== confirmPassword) && {
-                        disabled: true,
-                      })}
-                    >
-                      Sign Up
-                    </button>
-                  </p>
+                  {loading ? (
+                    <div className="text-center">
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        disabled
+                      >
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Loading...
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-lg"
+                        onClick={signUpHandler}
+                        {...((!email.match(emailRegex) ||
+                          role.length === 0 ||
+                          password.length < 6 ||
+                          password !== confirmPassword) && {
+                          disabled: true,
+                        })}
+                      >
+                        Sign Up
+                      </button>
+                    </div>
+                  )}
                 </form>
                 {error && (
                   <div className="text-center">
-                    <div class="alert alert-danger" role="alert">
+                    <div className="alert alert-danger" role="alert">
                       {error}
                     </div>
                   </div>
