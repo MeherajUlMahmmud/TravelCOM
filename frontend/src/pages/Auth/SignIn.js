@@ -12,7 +12,8 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(auth.currentUser);
+  const [loading, setLoading] = useState(false);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -26,9 +27,8 @@ function SignIn() {
 
   const signInHandler = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
-      setError("");
       await signInWithEmailAndPassword(auth, email, password);
       var uid = auth.currentUser.uid;
       getUserDetails(uid)
@@ -39,12 +39,16 @@ function SignIn() {
           localStorage.setItem("email", res.data["data"]["email"]);
           localStorage.setItem("role", res.data["data"]["role"]);
           console.log(res.data["data"]);
-          window.location = "/";
+          setLoading(false);
+          // window.location = "/";
         })
         .catch((err) => {
+          setLoading(false);
+          setError(err);
           console.log(err);
         });
     } catch {
+      setLoading(false);
       setError("Invalid email or password");
     }
   };
@@ -100,19 +104,36 @@ function SignIn() {
                     </small>
                   </div>
 
-                  <p className="text-center">
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-lg"
-                      onClick={signInHandler}
-                      {...((!email.match(emailRegex) ||
-                        password.length < 6) && {
-                        disabled: true,
-                      })}
-                    >
-                      Sign In
-                    </button>
-                  </p>
+                  {loading ? (
+                    <div className="text-center">
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        disabled
+                      >
+                        <span
+                          className="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Loading...
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <button
+                        type="submit"
+                        className="btn btn-primary btn-lg"
+                        onClick={signInHandler}
+                        {...((!email.match(emailRegex) ||
+                          password.length < 6) && {
+                          disabled: true,
+                        })}
+                      >
+                        Sign In
+                      </button>
+                    </div>
+                  )}
                 </form>
                 {error && (
                   <div className="text-center">
