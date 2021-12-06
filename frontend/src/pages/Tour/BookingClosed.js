@@ -42,6 +42,7 @@ function BookingClosed() {
                         <img
                           src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
                           className="img-fluid"
+                          alt=""
                         />
                         <a href="#!">
                           <div
