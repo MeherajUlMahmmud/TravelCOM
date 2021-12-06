@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
-  uid : {
+  uid: {
     type: String,
     required: true,
   },
@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema({
     required: true,
     default: "user",
   },
+  profession: {
+    type: String,
+  },
   location: {
     type: String,
   },
@@ -42,6 +45,5 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// module.exports = mongoose.model("UserModel", UserModel);
 const UserModel = mongoose.model("UserModel", UserSchema);
 export default UserModel;
