@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const TourModel = require("../models/TourModel");
+import mongoose from "mongoose";
+import TourModel from "../models/TourModel.js";
 
 // GET all tours
-const getAllTours = async (req, res) => {
+export const getAllTours = async (req, res) => {
   try {
     const tours = await TourModel.find();
     res.status(200).json({
@@ -21,7 +21,7 @@ const getAllTours = async (req, res) => {
 };
 
 // GET upcoming tours
-const getUpcomingTours = async (req, res) => {
+export const getUpcomingTours = async (req, res) => {
   try {
     const tours = await TourModel.find({
       bookingOpen: true,
@@ -42,7 +42,7 @@ const getUpcomingTours = async (req, res) => {
 };
 
 // GET booking closed tours
-const getBookingClosedTours = async (req, res) => {
+export const getBookingClosedTours = async (req, res) => {
   try {
     const tours = await TourModel.find({
       bookingOpen: false,
@@ -63,7 +63,7 @@ const getBookingClosedTours = async (req, res) => {
 };
 
 // GET completed tours
-const getCompletedTours = async (req, res) => {
+export const getCompletedTours = async (req, res) => {
   try {
     const tours = await TourModel.find({
       bookingOpen: false,
@@ -85,14 +85,12 @@ const getCompletedTours = async (req, res) => {
 };
 
 // GET single tour
-const getSingleTour = async (req, res) => {
+export const getSingleTour = async (req, res) => {
   try {
     const tour = await TourModel.findById(req.params.id);
     res.status(200).json({
       status: "success",
-      data: {
-        tour,
-      },
+      data: tour,
     });
   } catch (err) {
     res.status(404).json({
@@ -103,25 +101,28 @@ const getSingleTour = async (req, res) => {
 };
 
 // POST new tour
-const createTour = async (req, res) => {
-  try {
-    const newTour = await TourModel.create(req.body);
-    res.status(201).json({
-      status: "success",
-      data: {
-        tour: newTour,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err,
-    });
-  }
+export const createTour = async (req, res) => {
+  console.log(req.body.userId);
+  const tour = new TourModel({
+    id: new mongoose.Types.ObjectId(),
+    userId: req.body.userId,
+    name: req.body.name,
+    description: req.body.description,
+    location: req.body.location,
+    image: req.body.image,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    duration: req.body.duration,
+  });
+  await tour.save();
+  res.status(201).json({
+    status: "success",
+    data: tour,
+  });
 };
 
 // PUT update tour
-const updateTour = async (req, res) => {
+export const updateTour = async (req, res) => {
   try {
     const tour = await TourModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -142,7 +143,7 @@ const updateTour = async (req, res) => {
 };
 
 // DELETE tour
-const deleteTour = async (req, res) => {
+export const deleteTour = async (req, res) => {
   try {
     await TourModel.findByIdAndDelete(req.params.id);
     res.status(204).json({
