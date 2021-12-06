@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { Link } from "react-router-dom";
 import { createUser } from "../../api/index";
@@ -11,30 +14,51 @@ function SignUp() {
   );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [user, setUser] = useState({});
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+
+  useEffect(() => {
+    console.log(user);
+    if (user !== null) {
+      window.location.href = "/";
+    }
+    return () => {};
+  }, [user]);
 
   const signUpHandler = async (e) => {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       var uid = auth.currentUser.uid;
-      createUser({ uid, name, email })
-      .then((res) => {
-        localStorage.setItem("uid", res.data["data"]['uid']);
-        localStorage.setItem("name", res.data["data"]["name"]);
-        localStorage.setItem("email", res.data["data"]["email"]);
-        console.log(res.data["data"]);
-        window.location = "/";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      createUser({ uid, name, email, role })
+        .then((res) => {
+          localStorage.setItem("id", res.data["data"]["_id"]);
+          localStorage.setItem("uid", res.data["data"]["uid"]);
+          localStorage.setItem("name", res.data["data"]["name"]);
+          localStorage.setItem("email", res.data["data"]["email"]);
+          localStorage.setItem("role", res.data["data"]["role"]);
+          console.log(res.data["data"]);
+          window.location = "/";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       console.log(error.code);
       setError(error.message);
     }
+  };
+
+  const onDummyChange = (e) => {
+    e.preventDefault();
+    console.log(name, email, role, password, confirmPassword);
   };
 
   return (
@@ -99,6 +123,22 @@ function SignUp() {
                     </small>
                   </div>
 
+                  <div className="form-group">
+                    <label className="text-dark">Role</label>
+                    <select
+                      className="form-control p-2"
+                      onChange={(e) => setRole(e.target.value)}
+                    >
+                      <option value="">Select Role</option>
+                      <option value="user">User</option>
+                      <option value="guide">Tour Guide</option>
+                      <option value="coordinator">Tour Coordinator</option>
+                    </select>
+                    <small className="form-text text-muted">
+                      Select your role.
+                    </small>
+                  </div>
+
                   <div className="form-group mt-3 mb-3">
                     <label className="text-dark" htmlFor="password">
                       Password
@@ -137,6 +177,7 @@ function SignUp() {
                       className="btn btn-primary btn-lg"
                       onClick={signUpHandler}
                       {...((!email.match(emailRegex) ||
+                        role.length === 0 ||
                         password.length < 6 ||
                         password !== confirmPassword) && {
                         disabled: true,
