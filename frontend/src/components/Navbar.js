@@ -6,9 +6,11 @@ import { getUserDetails } from "../api/index";
 
 function Navbar({ user }) {
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
   useEffect(() => {
     if (user !== null) {
       setName(localStorage.getItem("name"));
+      setRole(localStorage.getItem("role"));
     }
     return () => {};
   }, []);
@@ -58,11 +60,17 @@ function Navbar({ user }) {
                 Complete Tours
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/create-tour">
-                New Tour
-              </Link>
-            </li>
+            {user && role === "coordinator" ? (
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  aria-current="page"
+                  to="/create-tour"
+                >
+                  New Tour
+                </Link>
+              </li>
+            ) : null}
           </ul>
           {user ? (
             <ul className="navbar-nav me-5">
