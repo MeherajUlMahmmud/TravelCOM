@@ -31,7 +31,7 @@ function Profile() {
       window.location.href = "/signin";
     }
     return () => {};
-  }, []);
+  }, [uid]);
 
   return (
     <div>
