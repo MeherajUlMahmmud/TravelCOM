@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import BookingModel from "../models/BookingModel.js";
 import TourModel from "../models/TourModel.js";
 
 // GET all tours
@@ -29,9 +30,7 @@ export const getUpcomingTours = async (req, res) => {
     res.status(200).json({
       status: "success",
       results: tours.length,
-      data: {
-        tours,
-      },
+      data: tours,
     });
   } catch (err) {
     res.status(404).json({
@@ -46,13 +45,12 @@ export const getBookingClosedTours = async (req, res) => {
   try {
     const tours = await TourModel.find({
       bookingOpen: false,
+      isCompleted: false,
     });
     res.status(200).json({
       status: "success",
       results: tours.length,
-      data: {
-        tours,
-      },
+      data: tours,
     });
   } catch (err) {
     res.status(404).json({
@@ -72,9 +70,7 @@ export const getCompletedTours = async (req, res) => {
     res.status(200).json({
       status: "success",
       results: tours.length,
-      data: {
-        tours,
-      },
+      data: tours,
     });
   } catch (err) {
     res.status(404).json({
@@ -102,7 +98,6 @@ export const getSingleTour = async (req, res) => {
 
 // POST new tour
 export const createTour = async (req, res) => {
-  console.log(req.body.userId);
   const tour = new TourModel({
     id: new mongoose.Types.ObjectId(),
     userId: req.body.userId,
@@ -110,7 +105,7 @@ export const createTour = async (req, res) => {
     description: req.body.description,
     location: req.body.location,
     image: req.body.image,
-    startDate: req.body.startDate,
+    startDate: Date.parse(req.body.startDate),
     endDate: req.body.endDate,
     duration: req.body.duration,
   });
@@ -123,16 +118,48 @@ export const createTour = async (req, res) => {
 
 // PUT update tour
 export const updateTour = async (req, res) => {
+  // try {
+  const { id } = req.params;
+  console.log(req.body.name);
+  console.log(req.body.description);
+  console.log(req.body.location);
+  console.log(req.body.image);
+  console.log(req.body.startDate);
+  console.log(req.body.endDate);
+  console.log(req.body.duration);
+  const tour = await TourModel.findByIdAndUpdate(
+    id,
+    {
+      name: req.body.name,
+      description: req.body.description,
+      location: req.body.location,
+      image: req.body.image,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      duration: req.body.duration,
+    },
+    { new: true }
+  );
+  res.status(200).json({
+    status: "success",
+    data: tour,
+  });
+  // } catch (err) {
+  //   res.status(404).json({
+  //     status: "fail",
+  //     message: err,
+  //   });
+  // }
+};
+
+// DELETE tour
+export const deleteTour = async (req, res) => {
+  const { id } = req.params;
+  await TourModel.findByIdAndDelete(id);
   try {
-    const tour = await TourModel.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(200).json({
+    await TourModel.findByIdAndDelete(req.params.id);
+    res.status(204).json({
       status: "success",
-      data: {
-        tour,
-      },
     });
   } catch (err) {
     res.status(404).json({
@@ -142,13 +169,79 @@ export const updateTour = async (req, res) => {
   }
 };
 
-// DELETE tour
-export const deleteTour = async (req, res) => {
-  try {
-    await TourModel.findByIdAndDelete(req.params.id);
-    res.status(204).json({
+export const bookingTour = async (req, res) => {
+  const { tourId, userId, paymentMethod, phone, transactionID } = req.body;
+  const booking = new BookingModel({
+    id: new mongoose.Types.ObjectId(),
+    userId: userId,
+    tourId: tourId,
+    paymentMethod: paymentMethod,
+    phone: phone,
+    transactionId: transactionID,
+  });
+  await booking.save();
+  res.status(201).json({
+    status: "success",
+    data: booking,
+  });
+};
+
+export const completeTour = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  // try {
+    const tour = await TourModel.findByIdAndUpdate(
+      id,
+      {
+        isCompleted: true,
+      },
+      { new: true }
+    );
+    res.status(200).json({
       status: "success",
-      data: null,
+      data: tour,
+    });
+  // } catch (err) {
+  //   res.status(404).json({
+  //     status: "fail",
+  //     message: err,
+  //   });
+  // }
+};
+
+export const closeBooking = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const tour = await TourModel.findByIdAndUpdate(
+      id,
+      {
+        bookingOpen: false,
+      },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      data: tour,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+export const getBookedTourByTourIdAndUserId = async (req, res) => {
+  const { tourId, userId } = req.params;
+  try {
+    const tour = await BookingModel.findOne({
+      userId: userId,
+      tourId: tourId,
+    });
+    res.status(200).json({
+      status: "success",
+      data: tour !== null ? true : false,
     });
   } catch (err) {
     res.status(404).json({
