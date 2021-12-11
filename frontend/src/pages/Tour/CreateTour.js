@@ -3,14 +3,14 @@ import FileBase from "react-file-base64";
 import { createTour } from "../../api";
 import Footer from "../../components/Footer";
 
-function CreateEditTour() {
+function CreateTour() {
   const userId = localStorage.getItem("id");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [location, setLocation] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
@@ -77,11 +77,24 @@ function CreateEditTour() {
                       type="text"
                       className="form-control p-2"
                       placeholder="Enter Tour Name"
+                      value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
                   <div className="form-group m-3">
+                    {image ? (
+                      <div>
+                        <img
+                          src={image}
+                          style={{
+                            width: "50%",
+                            height: "auto",
+                          }}
+                        />
+                        <br />
+                      </div>
+                    ) : null}
                     <label>Tour Cover Image</label>
                     <div className="form-control p-2">
                       <FileBase
@@ -98,6 +111,7 @@ function CreateEditTour() {
                       type="text"
                       className="form-control p-2"
                       placeholder="Enter Tour Location"
+                      value={location}
                       onChange={(e) => setLocation(e.target.value)}
                     />
                   </div>
@@ -110,6 +124,7 @@ function CreateEditTour() {
                       className="form-control"
                       placeholder="Enter Tour Description"
                       rows="8"
+                      value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
                   </div>
@@ -124,6 +139,7 @@ function CreateEditTour() {
                       type="date"
                       className="form-control p-2"
                       placeholder="Tour Start Date"
+                      value={startDate}
                       onChange={(e) => {
                         setStartDate(e.target.value);
                         calculateDuration();
@@ -138,6 +154,7 @@ function CreateEditTour() {
                       type="date"
                       className="form-control p-2"
                       placeholder="Tour End Date"
+                      value={endDate}
                       onChange={(e) => {
                         setEndDate(e.target.value);
                         calculateDuration();
@@ -169,6 +186,13 @@ function CreateEditTour() {
                   type="submit"
                   className="btn btn-primary btn-lg"
                   onClick={handleSubmit}
+                  {...((name.length < 5 ||
+                    description.length < 5 ||
+                    image === undefined ||
+                    location.length < 5 ||
+                    duration < 1) && {
+                    disabled: true,
+                  })}
                 >
                   Create New Tour
                 </button>
@@ -182,4 +206,4 @@ function CreateEditTour() {
   );
 }
 
-export default CreateEditTour;
+export default CreateTour;
