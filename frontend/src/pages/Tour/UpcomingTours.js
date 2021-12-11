@@ -6,11 +6,12 @@ import Footer from "../../components/Footer";
 function UpcomingTours() {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     getUpcomingTours().then((res) => {
-      console.log(res.data["data"]["tours"]);
-      setTours(res.data["data"]["tours"]);
+      console.log(res.data["data"]);
+      setTours(res.data["data"]);
       console.log(tours);
       setLoading(false);
     });
@@ -38,10 +39,11 @@ function UpcomingTours() {
                     {tours &&
                       tours.map((oneCard) => (
                         <div
-                          className="card border m-2"
+                          className="card border-0 shadow-sm mb-4"
                           key={oneCard.id}
                           style={{
                             maxWidth: "40rem",
+                            minWidth: "35rem",
                           }}
                         >
                           <div
@@ -54,16 +56,16 @@ function UpcomingTours() {
                                 "https://mdbootstrap.com/img/new/standard/nature/111.jpg"
                               }
                               className="img-fluid"
-                              alt=""
+                              alt={oneCard.name}
                             />
-                            <a href="#!">
+                            <Link to={`/tour/${oneCard._id}`}>
                               <div
                                 className="mask"
                                 style={{
                                   backgroundColor: "rgba(251, 251, 251, 0.15)",
                                 }}
                               ></div>
-                            </a>
+                            </Link>
                           </div>
                           <div className="card-body">
                             <h4 className="card-title">{oneCard.name}</h4>
@@ -75,12 +77,6 @@ function UpcomingTours() {
                               to={`/tour/${oneCard._id}`}
                             >
                               See Details
-                            </Link>
-                            <Link
-                              className="btn btn-outline-primary btn-lg"
-                              to={`/tour/${oneCard._id}`}
-                            >
-                              Book Now
                             </Link>
                           </div>
                         </div>
