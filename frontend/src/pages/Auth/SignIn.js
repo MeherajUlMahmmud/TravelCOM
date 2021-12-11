@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { auth } from "../../firebase-config";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -19,12 +19,6 @@ function SignIn() {
     setUser(currentUser);
   });
 
-  useEffect(() => {
-    if (user !== null) {
-      window.location.href = "/";
-    }
-  }, [user]);
-
   const signInHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -40,7 +34,7 @@ function SignIn() {
           localStorage.setItem("role", res.data["data"]["role"]);
           console.log(res.data["data"]);
           setLoading(false);
-          // window.location = "/";
+          window.location.href = "/";
         })
         .catch((err) => {
           setLoading(false);
@@ -142,7 +136,7 @@ function SignIn() {
                     </div>
                   </div>
                 )}
-                <h5 className="text-center">
+                <h5 className="text-center mt-3">
                   Don't have an account? <Link to="/signup">Sign Up</Link>
                 </h5>
               </div>
