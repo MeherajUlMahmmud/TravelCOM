@@ -31,7 +31,7 @@ function EditProfile() {
       window.location.href = "/signin";
     }
     return () => {};
-  }, []);
+  }, [uid]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -57,7 +57,7 @@ function EditProfile() {
     })
       .then((res) => {
         localStorage.setItem("name", res.data["data"]["name"]);
-        window.location = "/profile";
+        window.location.href = "/profile";
       })
       .catch((err) => {
         console.log(err);
