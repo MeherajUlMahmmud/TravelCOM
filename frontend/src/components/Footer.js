@@ -8,21 +8,18 @@ function Footer() {
           <div className="mb-4">
             <a
               className="btn btn-outline-light btn-floating m-1"
-              href="#"
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
               role="button"
             >
               <i className="fab fa-facebook-f"></i>
             </a>
             <a
               className="btn btn-outline-light btn-floating m-1"
-              href="#"
-              role="button"
-            >
-              <i className="fab fa-google"></i>
-            </a>
-            <a
-              className="btn btn-outline-light btn-floating m-1"
-              href="#"
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
               role="button"
             >
               <i className="fab fa-instagram"></i>
@@ -44,7 +41,7 @@ function Footer() {
         </div>
         <div className="text-center p-3">
           © 2021 Copyright{" "}
-          <a className="text-white" href="#">
+          <a className="text-white" href="travel.com">
             Travel.com
           </a>
         </div>
