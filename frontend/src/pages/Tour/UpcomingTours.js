@@ -6,7 +6,6 @@ import Footer from "../../components/Footer";
 function UpcomingTours() {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
-  const role = localStorage.getItem("role");
 
   useEffect(() => {
     getUpcomingTours().then((res) => {
