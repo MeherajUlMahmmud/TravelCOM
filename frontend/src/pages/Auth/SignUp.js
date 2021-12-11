@@ -212,7 +212,7 @@ function SignUp() {
                   </div>
                 )}
 
-                <h5 className="text-center mb-5">
+                <h5 className="text-center mt-3 mb-5">
                   Already have an account? <Link to="/signin">Sign In</Link>
                 </h5>
               </div>
