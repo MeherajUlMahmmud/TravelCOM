@@ -25,8 +25,19 @@ function Navbar({ user }) {
         <Link to="/" className="navbar-brand">
           TravelCOM
         </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i className="fas fa-bars"></i>
+        </button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/">
@@ -99,7 +110,28 @@ function Navbar({ user }) {
                 </ul>
               </li>
             </ul>
-          ) : null}
+          ) : (
+            <ul className="navbar-nav me-5">
+              <li className="nav-item">
+                <Link
+                  to="/signin"
+                  className="btn-outline-light btn-rounded text-white m-3"
+                  data-mdb-ripple-color="dark"
+                >
+                  Sign In
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/signup"
+                  className="btn-outline-light btn-rounded text-white m-3"
+                  data-mdb-ripple-color="dark"
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </nav>
