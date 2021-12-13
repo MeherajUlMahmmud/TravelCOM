@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { checkBookingByUser } from "../api";
 
 function Home({ user }) {
+  useEffect(() => {
+    if (user !== null) {
+      // check if the user is already booked any tour
+      var userId = localStorage.getItem("id");
+      checkBookingByUser(userId).then((res) => {
+        console.log(res.data['data']);
+        var isBooked = res.data['data'] === true ? true : false;
+        localStorage.setItem("isBooked", isBooked);
+      });
+    }
+  }, [user]);
+
   return (
     <div className="container">
       <div
