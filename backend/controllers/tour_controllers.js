@@ -190,17 +190,17 @@ export const completeTour = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   // try {
-    const tour = await TourModel.findByIdAndUpdate(
-      id,
-      {
-        isCompleted: true,
-      },
-      { new: true }
-    );
-    res.status(200).json({
-      status: "success",
-      data: tour,
-    });
+  const tour = await TourModel.findByIdAndUpdate(
+    id,
+    {
+      isCompleted: true,
+    },
+    { new: true }
+  );
+  res.status(200).json({
+    status: "success",
+    data: tour,
+  });
   // } catch (err) {
   //   res.status(404).json({
   //     status: "fail",
@@ -242,6 +242,32 @@ export const getBookedTourByTourIdAndUserId = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: tour !== null ? true : false,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+export const checkBookingbyUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const bookings = await BookingModel.find({
+      userId: userId,
+    });
+    var isBooked = false;
+    for (let i = 0; i < bookings.length; i++) {
+      var tour = await TourModel.findById(bookings[i].tourId);
+      if (tour.isCompleted === false) {
+        isBooked = true;
+        break;
+      }
+    }
+    res.status(200).json({
+      status: "success",
+      data: isBooked,
     });
   } catch (err) {
     res.status(404).json({
