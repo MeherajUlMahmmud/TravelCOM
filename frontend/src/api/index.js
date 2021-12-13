@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:5000";
+const url = "http://localhost:8000";
 
 export const createUser = (user) => {
   return axios.post(`${url}/create-user`, user);
