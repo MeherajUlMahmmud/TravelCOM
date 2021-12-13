@@ -64,3 +64,7 @@ export const completeTour = (tourId) => {
 export const getBookedTourByTourIdAndUserId = (data) => {
   return axios.get(`${url}/tour/booked-tour/${data.tourId}/${data.userId}`, data);
 };
+
+export const checkBookingByUser = (userId) => {
+  return axios.get(`${url}/tour/check-booking/${userId}`);
+}
