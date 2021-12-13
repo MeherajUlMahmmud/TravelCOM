@@ -12,6 +12,7 @@ import {
   closeBooking,
   completeTour,
   getBookedTourByTourIdAndUserId,
+  checkBookingbyUser,
 } from "../controllers/tour_controllers.js";
 
 const router = express.Router();
@@ -28,5 +29,6 @@ router.post("/booking-tour/:id", bookingTour);
 router.patch("/close-booking/:id", closeBooking);
 router.patch("/complete-tour/:id", completeTour);
 router.get("/booked-tour/:tourId/:userId", getBookedTourByTourIdAndUserId);
+router.get("/check-booking/:userId", checkBookingbyUser);
 
 export default router;
