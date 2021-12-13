@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  getTourDetails,
-  deleteTour,
   closeBooking,
   completeTour,
+  deleteTour,
   getBookedTourByTourIdAndUserId,
+  getTourDetails,
 } from "../../api";
 import Footer from "../../components/Footer";
 
@@ -13,6 +13,7 @@ function TourDetails() {
   const tourId = window.location.pathname.split("/")[2];
   const userId = localStorage.getItem("id");
   const role = localStorage.getItem("role");
+  const userBookedAnyTour = localStorage.getItem("isBooked");
   const [tour, setTour] = useState({});
   const [loading, setLoading] = useState(true);
   const [isBooked, setIsBooked] = useState(false);
@@ -98,79 +99,45 @@ function TourDetails() {
                   />
                   <h2>{tour.name}</h2>
                   <h4>Location : {tour.location}</h4>
-                  {tour.userId === userId ? (
-                    <div className="row">
-                      <div className="col-md-12">
-                        {tour.bookingOpen ? (
-                          <div>
-                            <Link
-                              className="btn btn-info btn-md m-3"
-                              to={`/update-tour/${tourId}`}
-                            >
-                              <i className="fas fa-edit"></i> Update Details
-                            </Link>
-                            <button
-                              className="btn btn-primary btn-md m-3"
-                              type="button"
-                              data-mdb-toggle="modal"
-                              data-mdb-target="#bookingCloseModal"
-                            >
-                              <i class="far fa-times-circle"></i> Close Booking
-                            </button>
-                            <button
-                              className="btn btn-danger btn-md m-3"
-                              type="button"
-                              data-mdb-toggle="modal"
-                              data-mdb-target="#deleteModal"
-                            >
-                              <i className="fas fa-trash-alt"></i> Delete
-                            </button>
-                          </div>
-                        ) : (
-                          <div>
-                            <button className="btn btn-secondary m-3" disabled>
-                              <i className="fa fa-exclamation-triangle"></i>{" "}
-                              Booking is closed.
-                            </button>
-                            {tour.isCompleted ? (
-                              <button className="btn btn-success m-3" disabled>
-                                <i className="fa fa-check"></i> Tour Completed
-                              </button>
+
+                  {tour.isCompleted ? <TourCompleted /> : (
+
+                  <div className="row">
+                    <div className="col-md-12">
+                      {tour.bookingOpen ? (
+                        <div>
+                          {tour.userId === userId ? (
+                            <BookingOpenForCoordinator tourId={tourId} />
+                          ) : null}
+
+                          {role === "user" ? (
+                            userBookedAnyTour === "true" ? (
+                              <BookedOtherTour />
+                            ) : isBooked ? (
+                              <BookedThisTour />
                             ) : (
-                              <button
-                                className="btn btn-success m-3"
-                                type="button"
-                                onClick={handleComplete}
-                              >
-                                <i className="fa fa-check"></i> Mark as Complete
-                              </button>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ) : null}
-                  {userId && role === "user" ? (
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="text-center">
-                          {isBooked ? (
-                            <p className="h5 mt-3">
-                              <i className="fas fa-check-circle text-success"></i>{" "}
-                              You have booked this tour
-                            </p>
-                          ) : (
-                            <Link
-                              to={`/tour/${tourId}/booking`}
-                              className="btn btn-success btn-md mt-3"
-                            >
-                              BOOK NOW
-                            </Link>
-                          )}
+                              <BookNow tourId={tourId} />
+                            )
+                          ) : null}
                         </div>
-                      </div>
+                      ) : (
+                        <div>
+                          <button className="btn btn-secondary m-3" disabled>
+                            <i className="fa fa-exclamation-triangle"></i>{" "}
+                            Booking is closed.
+                          </button>
+                          {role === "user" && isBooked ? (
+                            <BookedThisTour />
+                          ) : null}
+                          {tour.userId === userId ? (
+                            <MarkAsCompleted handleComplete={handleComplete} />
+                          ) : null}
+                        </div>
+                      )}
                     </div>
-                  ) : null}
+                  </div>
+                  )}
+
                   <hr />
                 </div>
               </div>
@@ -317,6 +284,82 @@ function TourDetails() {
       )}
       <Footer />
     </div>
+  );
+}
+
+function BookingOpenForCoordinator(props) {
+  return (
+    <div>
+      <Link className="btn btn-info btn-md m-3" to={`/update-tour/${props.tourId}`}>
+        <i className="fas fa-edit"></i> Update Details
+      </Link>
+      <button
+        className="btn btn-primary btn-md m-3"
+        type="button"
+        data-mdb-toggle="modal"
+        data-mdb-target="#bookingCloseModal"
+      >
+        <i class="far fa-times-circle"></i> Close Booking
+      </button>
+      <button
+        className="btn btn-danger btn-md m-3"
+        type="button"
+        data-mdb-toggle="modal"
+        data-mdb-target="#deleteModal"
+      >
+        <i className="fas fa-trash-alt"></i> Delete
+      </button>
+    </div>
+  );
+}
+
+function BookedThisTour() {
+  return (
+    <p className="h5 mt-3">
+      <i className="fas fa-check-circle text-success"></i> You have booked this
+      tour
+    </p>
+  );
+}
+
+function BookedOtherTour() {
+  return (
+    <p className="h5 mt-3">
+      <i className="fa fa-exclamation-triangle text-warning"></i> You have
+      already booked other tour
+    </p>
+  );
+}
+
+function BookNow(props) {
+  console.log(props.tourId);
+  return (
+    <Link
+      to={`/tour/${props.tourId}/booking`}
+      className="btn btn-success btn-md mt-3"
+    >
+      BOOK NOW
+    </Link>
+  );
+}
+
+function TourCompleted() {
+  return (
+    <button className="btn btn-success m-3" disabled>
+      <i className="fa fa-check"></i> Tour Completed
+    </button>
+  );
+}
+
+function MarkAsCompleted(props) {
+  return (
+    <button
+      className="btn btn-success m-3"
+      type="button"
+      onClick={props.handleComplete}
+    >
+      <i className="fa fa-check"></i> Mark as Complete
+    </button>
   );
 }
 
