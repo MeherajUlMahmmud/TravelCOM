@@ -19,6 +19,10 @@ app.use("/tour", tourRoutes);
 
 const port = process.env.PORT;
 
+app.get("/", (req, res) => {
+  res.send("TravelCOM API is running");
+});
+
 mongoose
   .connect(process.env.CONNECTION_URL, {
     useNewUrlParser: true,
