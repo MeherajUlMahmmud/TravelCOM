@@ -3,7 +3,7 @@ import { getAllUsers, createUser, getUserDetails, updateUser } from "../controll
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
+// router.get("/", getAllUsers);
 router.post("/create-user", createUser);
 router.patch("/update-user/:id", updateUser);
 router.get("/user/:uid", getUserDetails);
