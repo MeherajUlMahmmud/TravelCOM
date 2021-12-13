@@ -17,7 +17,7 @@ app.use(cors());
 app.use("/", userRoutes);
 app.use("/tour", tourRoutes);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
