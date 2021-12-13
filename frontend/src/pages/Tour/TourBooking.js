@@ -29,7 +29,8 @@ function TourBooking() {
 
     bookingTour({ tourId, userId, paymentMethod, phone, transactionID }).then(
       (res) => {
-        console.log(res.data);
+        window.location.href = `/tour/${tourId}`;
+        localStorage.setItem("isBooked", true);
       }
     );
   }
