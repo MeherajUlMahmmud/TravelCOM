@@ -154,6 +154,9 @@ function EditProfile() {
                   <button
                     type="submit"
                     className="btn btn-primary btn-lg"
+                    {...((name.length === 0 ) && {
+                      disabled: true,
+                    })}
                     onClick={handleSubmit}
                   >
                     Update Profile Information
