@@ -13,6 +13,9 @@ import {
   completeTour,
   getBookedTourByTourIdAndUserId,
   checkBookingbyUser,
+  getToursByUserId,
+  getBookedToursByUserId,
+  getCompletedToursByUserId,
 } from "../controllers/tour_controllers.js";
 
 const router = express.Router();
@@ -30,5 +33,8 @@ router.patch("/close-booking/:id", closeBooking);
 router.patch("/complete-tour/:id", completeTour);
 router.get("/booked-tour/:tourId/:userId", getBookedTourByTourIdAndUserId);
 router.get("/check-booking/:userId", checkBookingbyUser);
+router.get("/tours-by-user-id/:userId", getToursByUserId);
+router.get("/booked-tours-by-user-id/:userId", getBookedToursByUserId);
+router.get("/completed-tours-by-user-id/:userId", getCompletedToursByUserId);
 
 export default router;
