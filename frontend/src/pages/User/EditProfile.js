@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import FileBase from "react-file-base64";
 import Footer from "../../components/Footer";
 import { getUserDetails, updateUserDetails } from "../../api";
@@ -67,7 +68,12 @@ function EditProfile() {
   return (
     <div>
       <div className="container mt-5 mb-5">
-        <h3 className="text-center">Update Profile</h3>
+        <div className="text-center">
+          <h3>Update Profile</h3>
+          <Link to="/profile">
+            <i className="fa fa-arrow-left"></i> Back to Profile
+          </Link>
+        </div>
         <hr />
         <div className="row">
           <div className="col-md-12">
@@ -154,7 +160,7 @@ function EditProfile() {
                   <button
                     type="submit"
                     className="btn btn-primary btn-lg"
-                    {...((name.length === 0 ) && {
+                    {...(name.length === 0 && {
                       disabled: true,
                     })}
                     onClick={handleSubmit}
