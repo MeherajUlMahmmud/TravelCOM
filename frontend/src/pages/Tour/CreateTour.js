@@ -26,7 +26,7 @@ function CreateTour() {
       const end = new Date(endDate);
       const diffTime = end - start;
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      setDuration(diffDays);
+      setDuration(diffDays+1);
     }
   };
 
