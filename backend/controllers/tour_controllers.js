@@ -120,13 +120,6 @@ export const createTour = async (req, res) => {
 export const updateTour = async (req, res) => {
   // try {
   const { id } = req.params;
-  console.log(req.body.name);
-  console.log(req.body.description);
-  console.log(req.body.location);
-  console.log(req.body.image);
-  console.log(req.body.startDate);
-  console.log(req.body.endDate);
-  console.log(req.body.duration);
   const tour = await TourModel.findByIdAndUpdate(
     id,
     {
