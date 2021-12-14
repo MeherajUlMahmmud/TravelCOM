@@ -276,3 +276,73 @@ export const checkBookingbyUser = async (req, res) => {
     });
   }
 };
+
+export const getToursByUserId = async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const tours = await TourModel.find({
+      userId: userId,
+    });
+    for (let i = 0; i < tours.length; i++) {
+      console.log(tours[i].name);
+    }
+    res.status(200).json({
+      status: "success",
+      data: tours,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+export const getBookedToursByUserId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const bookings = await BookingModel.find({
+      userId: userId,
+    });
+    var tours = [];
+    for (let i = 0; i < bookings.length; i++) {
+      var tour = await TourModel.findById(bookings[i].tourId);
+      tours.push(tour);
+    }
+    res.status(200).json({
+      status: "success",
+      data: tours,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
+
+export const getCompletedToursByUserId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const bookings = await BookingModel.find({
+      userId: userId,
+    });
+    var tours = [];
+    for (let i = 0; i < bookings.length; i++) {
+      var tour = await TourModel.findById(bookings[i].tourId);
+      if (tour.isCompleted === true) {
+        tours.push(tour);
+      }
+    }
+    res.status(200).json({
+      status: "success",
+      data: tours,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};
