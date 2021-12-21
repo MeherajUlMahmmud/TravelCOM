@@ -1,20 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { checkBookingByUser } from "../api";
 
 function Home({ user }) {
-  useEffect(() => {
-    if (user !== null) {
-      // check if the user is already booked any tour
-      var userId = localStorage.getItem("id");
-      checkBookingByUser(userId).then((res) => {
-        console.log(res.data['data']);
-        var isBooked = res.data['data'] === true ? true : false;
-        localStorage.setItem("isBooked", isBooked);
-      });
-    }
-  }, [user]);
-
   return (
     <div className="container">
       <div
@@ -33,8 +20,7 @@ function Home({ user }) {
           <div className="col-md-12 mt-5">
             <h1 className="display-4 text-center">TravelCOM</h1>
             <p className="lead text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-              quidem.
+              Travelling made easy.
             </p>
             {user ? null : (
               <div className="row mt-5">
