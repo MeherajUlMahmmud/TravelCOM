@@ -12,7 +12,7 @@ import {
   closeBooking,
   completeTour,
   getBookedTourByTourIdAndUserId,
-  checkBookingbyUser,
+  checkBookingAbilityByTourIdAndUserId,
   getToursByUserId,
   getBookedToursByUserId,
   getCompletedToursByUserId,
@@ -32,7 +32,10 @@ router.post("/booking-tour/:id", bookingTour);
 router.patch("/close-booking/:id", closeBooking);
 router.patch("/complete-tour/:id", completeTour);
 router.get("/booked-tour/:tourId/:userId", getBookedTourByTourIdAndUserId);
-router.get("/check-booking/:userId", checkBookingbyUser);
+router.get(
+  "/check-booking-ability/:tourId/:userId",
+  checkBookingAbilityByTourIdAndUserId
+);
 router.get("/tours-by-user-id/:userId", getToursByUserId);
 router.get("/booked-tours-by-user-id/:userId", getBookedToursByUserId);
 router.get("/completed-tours-by-user-id/:userId", getCompletedToursByUserId);
