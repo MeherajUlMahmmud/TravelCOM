@@ -244,23 +244,24 @@ export const getBookedTourByTourIdAndUserId = async (req, res) => {
   }
 };
 
-export const checkBookingbyUser = async (req, res) => {
-  const { userId } = req.params;
+export const checkBookingAbilityByTourIdAndUserId = async (req, res) => {
+  const { tourId, userId } = req.params;
   try {
+    const tour = await TourModel.findById(tourId);
     const bookings = await BookingModel.find({
       userId: userId,
     });
-    var isBooked = false;
+    var isAbleToBook = true;
     for (let i = 0; i < bookings.length; i++) {
-      var tour = await TourModel.findById(bookings[i].tourId);
-      if (tour.isCompleted === false) {
-        isBooked = true;
+      var t = await TourModel.findById(bookings[i].tourId);
+      if (t.isCompleted === false && t.endDate > tour.startDate) {
+        isAbleToBook = false;
         break;
       }
     }
     res.status(200).json({
       status: "success",
-      data: isBooked,
+      data: isAbleToBook,
     });
   } catch (err) {
     res.status(404).json({
