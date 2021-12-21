@@ -18,6 +18,7 @@ function Navbar({ user }) {
   const logout = async () => {
     await signOut(auth);
     localStorage.clear();
+    window.location.href = "/";
   };
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
