@@ -65,9 +65,11 @@ export const getBookedTourByTourIdAndUserId = (data) => {
   return axios.get(`${url}/tour/booked-tour/${data.tourId}/${data.userId}`, data);
 };
 
-export const checkBookingByUser = (userId) => {
-  return axios.get(`${url}/tour/check-booking/${userId}`);
-}
+export const checkBookingAbilityByTourIdAndUserId = (data) => {
+  return axios.get(
+    `${url}/tour/check-booking-ability/${data.tourId}/${data.userId}`
+  );
+};
 
 export const getToursByUserId = (userId) => {
   return axios.get(`${url}/tour/tours-by-user-id/${userId}`);
