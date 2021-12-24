@@ -21,6 +21,10 @@ const TourSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  spots: {
+    type: String,
+    required: false,
+  },
   startDate: {
     type: Date,
     required: true,
