@@ -20,6 +20,7 @@ function Navbar({ user }) {
     localStorage.clear();
     window.location.href = "/";
   };
+  
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid ms-3">
