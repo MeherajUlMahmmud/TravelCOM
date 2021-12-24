@@ -36,10 +36,10 @@ function UpcomingTours() {
                 <div className="container-fluid d-flex justify-content-center">
                   <div className="row row-cols-1 row-cols-md-2 g-4">
                     {tours &&
-                      tours.map((oneCard) => (
+                      tours.map((tour) => (
                         <div
                           className="card border-0 shadow-sm mb-4"
-                          key={oneCard.id}
+                          key={tour.id}
                           style={{
                             maxWidth: "40rem",
                             minWidth: "35rem",
@@ -51,13 +51,17 @@ function UpcomingTours() {
                           >
                             <img
                               src={
-                                oneCard.image ||
+                                tour.image ||
                                 "https://mdbootstrap.com/img/new/standard/nature/111.jpg"
                               }
                               className="img-fluid"
-                              alt={oneCard.name}
+                              alt={tour.name}
+                              style={{
+                                height: "20rem",
+                                width: "35rem",
+                              }}
                             />
-                            <Link to={`/tour/${oneCard._id}`}>
+                            <Link to={`/tour/${tour._id}`}>
                               <div
                                 className="mask"
                                 style={{
@@ -67,13 +71,13 @@ function UpcomingTours() {
                             </Link>
                           </div>
                           <div className="card-body">
-                            <h4 className="card-title">{oneCard.name}</h4>
+                            <h4 className="card-title">{tour.name}</h4>
                             <p className="card-text">
-                              {oneCard.description.substring(0, 100)}
+                              {tour.description.substring(0, 100)}
                             </p>
                             <Link
                               className="btn btn-outline-primary me-3 btn-lg"
-                              to={`/tour/${oneCard._id}`}
+                              to={`/tour/${tour._id}`}
                             >
                               See Details
                             </Link>
