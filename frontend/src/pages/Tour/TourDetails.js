@@ -103,6 +103,10 @@ function TourDetails() {
                     }
                     className="img-fluid mb-3"
                     alt={tour.name}
+                    style={{
+                      height: "40rem",
+                      width: "70rem",
+                    }}
                   />
                   <h2>{tour.name}</h2>
                   <h4>Location : {tour.location}</h4>
