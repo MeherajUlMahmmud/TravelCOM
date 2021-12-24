@@ -169,6 +169,21 @@ function TourDetails() {
             </div>
             <div className="row mt-2">
               <div className="col-md-12">
+                <h5 className="note">Tour Spots</h5>
+                <p>
+                  {tour.spots &&
+                    tour.spots.split(",").map((spot) => (
+                      <span key={spot}>
+                        <span className="btn btn-primary p-2 m-2">
+                          <i className="fa fa-map-marker"></i> {spot}
+                        </span>
+                      </span>
+                    ))}
+                </p>
+              </div>
+            </div>
+            <div className="row mt-2">
+              <div className="col-md-12">
                 <h5 className="note">Tour Details</h5>
                 <p>{tour.description}</p>
               </div>
